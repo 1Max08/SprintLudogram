@@ -5,11 +5,9 @@ import { uploadImage } from '../middlewares/upload.middleware.js';
 
 const router = Router();
 
-// Public
 router.get('/', getAllGames);
 router.get('/:id', getGameById);
 
-// Protected
 router.post(
   '/',
   authMiddleware,
