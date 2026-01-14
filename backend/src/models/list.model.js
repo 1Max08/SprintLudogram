@@ -6,6 +6,5 @@ const listSchema = new mongoose.Schema({
   gameIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Game' }]
 }, { timestamps: true });
  
-listSchema.index({ name: 1, ownerId: 1 }, { unique: true }); // pas de doublons de noms par utilisateur
- 
+listSchema.index({ name: 1, ownerId: 1 }, { unique: true });
 export default mongoose.model('List', listSchema);
