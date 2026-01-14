@@ -10,14 +10,22 @@ const COOKIE_OPTIONS = {
 
 export const signup = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    const exists = await User.findOne({ email });
-    if (exists) return res.status(409).json({ message: 'Email déjà utilisé' });
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) return res.status(409).json({ message: 'Pseudo déjà utilisé' });
+
+    const emailExists = await User.findOne({ email });
+    if (emailExists) return res.status(409).json({ message: 'Email déjà utilisé' });
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "Tous les champs sont requis" });
+    }
 
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = await User.create({
+      username,
       email,
       passwordHash,
     });
@@ -45,7 +53,10 @@ export const login = async (req, res, next) => {
     );
 
     res.cookie('token', token, COOKIE_OPTIONS);
-    res.json(user);
+    res.json({
+      username: user.username,
+      email: user.email
+    });
   } catch (err) {
     next(err);
   }
@@ -56,6 +67,6 @@ export const logout = (req, res) => {
   res.status(200).json({ message: 'Déconnecté' });
 };
 
-export const me = (req, res) => {
+export const dashboard = (req, res) => {
   res.json(req.user);
 };
