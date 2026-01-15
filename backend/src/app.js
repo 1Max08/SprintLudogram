@@ -19,6 +19,7 @@ app.use(cors({
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 // Exposer les images uploadées
 app.use('/uploads', express.static(path.resolve('src/uploads')));

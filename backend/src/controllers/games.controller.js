@@ -6,7 +6,15 @@ export const getAllGames = async (req, res, next) => {
       .populate('ownerId', 'email avatarUrl')
       .sort({ createdAt: -1 });
 
-    res.json(games);
+    res.json(
+      games.map(game => ({
+        title: game.title,
+        description: game.description,
+        imageUrl: game.imageUrl,
+        createdAt: game.createdAt,
+        updatedAt: game.updatedAt
+      }))
+    );
   } catch (err) {
     next(err);
   }
@@ -45,8 +53,9 @@ export const updateGame = async (req, res, next) => {
     const game = await Game.findById(req.params.id);
     if (!game) return res.status(404).json({ message: 'Jeu introuvable' });
 
-    if (game.ownerId.toString() !== req.user.id)
+    if (game.ownerId.toString() !== req.user.id.toString()) {
       return res.status(403).json({ message: 'Accès interdit' });
+    }
 
     game.title = req.body.title ?? game.title;
     game.description = req.body.description ?? game.description;
@@ -64,8 +73,9 @@ export const deleteGame = async (req, res, next) => {
     const game = await Game.findById(req.params.id);
     if (!game) return res.status(404).json({ message: 'Jeu introuvable' });
 
-    if (game.ownerId.toString() !== req.user.id)
+    if (game.ownerId.toString() !== req.user.id.toString()) {
       return res.status(403).json({ message: 'Accès interdit' });
+    }
 
     await game.deleteOne();
     res.json({ message: 'Jeu supprimé' });
