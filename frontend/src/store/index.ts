@@ -12,5 +12,9 @@ export const store = configureStore({
   },
 });
 
+// `store` centralise l'état de l'application (Redux Toolkit).
+// - combine les reducers `auth`, `games`, `lists`.
+// - `RootState` et `AppDispatch` sont des helpers TypeScript utiles
+//   pour typer `useSelector` et `useDispatch` dans les composants.
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

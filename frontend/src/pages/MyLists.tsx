@@ -7,15 +7,21 @@ import { fetchLists, createList, renameList, deleteList, addItemToList, removeIt
 import { fetchGames } from '../store/gamesSlice';
 import toast from 'react-hot-toast';
 
+// `MyLists` : page protégée pour gérer les listes de jeux de l'utilisateur.
+// - Affiche la liste des listes de l'utilisateur.
+// - CRUD complet: créer, renommer, supprimer une liste.
+// - Permet d'ajouter/retirer des jeux dans/de chaque liste.
+// - Utilise les thunks de `listsSlice` pour toutes les actions.
 export default function MyLists() {
   const dispatch = useDispatch<AppDispatch>();
   const { items: lists, loading } = useSelector((s: RootState) => s.lists);
-  const { items: games } = useSelector((s: RootState) => s.games);
+  const { items: games } = useSelector((s: RootState) => s.games); // jeux pour le sélecteur
 
   const [newName, setNewName] = useState('');
-  const [selectedGameByList, setSelectedGameByList] = useState<Record<string, string>>({});
+  const [selectedGameByList, setSelectedGameByList] = useState<Record<string, string>>({}); // jeu sélectionné par liste
   const gameMap = useMemo(() => Object.fromEntries(games.map(g => [g._id, g.title])), [games]);
 
+  // Au montage, charge les listes et les jeux
   useEffect(() => {
     dispatch(fetchLists());
     if (games.length === 0) dispatch(fetchGames());
