@@ -1,7 +1,6 @@
+ import axios from 'axios';
 
-import axios from 'axios';
-
-const api = axios.create({
+export const api = axios.create({
   // Adresse du backend : toutes les requêtes `api.get/post(...)`
   // seront préfixées par ce `baseURL`.
   baseURL: 'http://localhost:4000/api',
