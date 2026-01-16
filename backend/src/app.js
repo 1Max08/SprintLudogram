@@ -8,12 +8,13 @@ import gameRoutes from './routes/games.routes.js';
 import listRoutes from './routes/lists.routes.js';
 import uploadRoutes from './routes/uploads.routes.js';
 import { errorMiddleware, notFoundMiddleware } from './middlewares/error.middleware.js';
+import { fileURLToPath } from 'url';
 
 const app = express();
 
 // Middlewares globaux
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN,
+  origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
   credentials: true
 }));
 app.use(morgan('dev'));
@@ -29,7 +30,18 @@ app.get('/', (req, res) => {
   res.json({ message: 'TEST' });
 });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Rend /uploads accessible publiquement
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Routes API
+app.use((req, res, next) => {
+  console.log('REQ:', req.method, req.url);
+  next();
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/lists', listRoutes);
