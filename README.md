@@ -24,7 +24,7 @@ cd SprintLudogram
 
 ### Initialiser le projet
 
-Lancer MongoDB et créer une base de données appelée 'ludogram'
+Lancer MongoDB et créer une base de données appelée 'ludogram' et une collection appelée 'lists' (par exemple)
 
 Dans un terminal :
 
