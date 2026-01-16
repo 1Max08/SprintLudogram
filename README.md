@@ -24,6 +24,8 @@ cd SprintLudogram
 
 ### Initialiser le projet
 
+Lancer MongoDB et créer une base de données appelée 'ludogram'
+
 Dans un terminal :
 
 ```bash
@@ -40,7 +42,6 @@ npm i
 npm run dev
 ```
 
-Lancer MongoDB
 
 ## 🛠️ Stack technique
 
