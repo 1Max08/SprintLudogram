@@ -31,13 +31,15 @@ export const fetchMe = createAsyncThunk<User>(
   'auth/fetchMe',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get('/auth/dashboard'); // cookie envoyé automatiquement
-      return res.data.user as User;
+      const res = await api.get('/auth/dashboard');
+      // backend renvoie {id, username, email} directement
+      return res.data as User; 
     } catch (err: any) {
       return rejectWithValue(err?.response?.data?.message || 'UNAUTHENTICATED');
     }
   }
 );
+
 
 // SIGNUP
 export const signupUser = createAsyncThunk<User, { username: string; email: string; password: string }>(

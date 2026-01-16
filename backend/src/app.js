@@ -37,6 +37,11 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes API
+app.use((req, res, next) => {
+  console.log('REQ:', req.method, req.url);
+  next();
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/lists', listRoutes);
